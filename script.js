@@ -1,9 +1,7 @@
-
-// script.js
 $(function () {
     var socket = io();
-    $('form').submit(function(e) {
-        e.preventDefault();
+    $('#form').submit(function(e) {
+        e.preventDefault(); // This line prevents the default form submission behavior
         if ($('#input').val()) {
             socket.emit('chat message', $('#input').val());
             $('#input').val('');
