@@ -44,7 +44,7 @@ body {
     flex-grow: 1;
     background: pink;
     height: 70vh;
-    width: 40vh;
+    width: 80vh;
 }
 
 #messages li {
