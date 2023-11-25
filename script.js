@@ -47,6 +47,9 @@ $(function () {
 
 
 
-//var c = document.getElementById("canvas1");
-//var ctx = c.getContext("2d");
+var c = document.getElementById("canvas1");
+var ctx = c.getContext("2d");
+
+ctx.fillStyle("#FF0000");
+ctx.fillRect(10,10,10,10);
 
