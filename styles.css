@@ -52,7 +52,7 @@ body {
     background-color: #007bff; /* Blue message bubbles */
     color: #fff; /* White text */
     border-radius: 10px;
-    max-width: 20%;
+    max-width: 80%;
     max-height: 20%
 }
 
