@@ -1,1 +1,32 @@
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+#messages {
+    list-style-type: none;
+    margin: 0;
+    padding: 20px;
+    overflow-y: scroll;
+    flex-grow: 1;
+}
+#messages li {
+    padding: 5px 10px;
+}
+#form {
+    display: flex;
+    padding: 10px;
+    background: #f2f2f2;
+}
+#input {
+    flex-grow: 1;
+    padding: 10px;
+}
+#form button {
+    padding: 10px;
+}
 
