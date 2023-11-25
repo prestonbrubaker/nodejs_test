@@ -51,6 +51,7 @@ body {
     color: #fff; /* White text */
     border-radius: 10px;
     max-width: 20%;
+    max-height: 20%
 }
 
 #form {
