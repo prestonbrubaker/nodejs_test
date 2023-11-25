@@ -1,3 +1,14 @@
+@font-face {
+    font-family: "chatty";
+    src: url("chatty.ttf"), format('trueType');
+}
+
+h1 {
+    font-family: "chatty", sans-serif;
+    font-size: 3rem;
+    text-align: center;
+}
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
