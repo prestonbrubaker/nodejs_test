@@ -6,9 +6,15 @@ $(function () {
         messagesList.append($('<li>').text(`[${data.timestamp}] ${data.msg} (IP: ${data.ip})`));
     }
 
-    $.getJSON('/chatlog.json', function (data) {
-        data.forEach(displayMessage);
-    });
+    // Function to load previous chat messages
+    function loadChatLog() {
+        $.getJSON('/chatlog.json', function (data) {
+            data.forEach(displayMessage);
+        });
+    }
+
+    // Call the function on page load
+    loadChatLog();
 
     $('form').submit(function(e) {
         e.preventDefault();
