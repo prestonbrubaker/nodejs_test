@@ -25,7 +25,7 @@ body {
 
 #canvas1 {
     height: 80vh;
-    width: 80vw;
+    width: 40vw;
     background: lightgrey;
 }
 
@@ -41,7 +41,7 @@ body {
     overflow-y: scroll;
     flex-grow: 1;
     background: pink;
-    height: 80vh;
+    height: 70vh;
 }
 
 #messages li {
