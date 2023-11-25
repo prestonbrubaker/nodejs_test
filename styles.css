@@ -59,3 +59,10 @@ body {
     border-radius: 5px;
     cursor: pointer;
 }
+
+#canvas1 {
+    height: 80%;
+    width: 50%;
+    background: gray;
+    display: block;
+}
