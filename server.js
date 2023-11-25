@@ -1,13 +1,12 @@
 const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
+const fs = require('fs');
 
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
-const fs = require('fs');
 
-// Serve static files from the current directory (including JavaScript files)
 app.use(express.static(__dirname));
 
 app.get('/', (req, res) => {
@@ -20,7 +19,6 @@ io.on('connection', (socket) => {
         const messageData = { msg, timestamp, ip };
         io.emit('chat message', messageData);
 
-        // Append the message to the chatlog.json file
         fs.readFile('chatlog.json', (err, content) => {
             if (err) {
                 console.error(err);
@@ -36,9 +34,6 @@ io.on('connection', (socket) => {
         });
     });
 });
-
-
-
 
 const PORT = process.env.PORT || 58541;
 server.listen(PORT, '0.0.0.0', () => {
