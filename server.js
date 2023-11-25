@@ -7,12 +7,11 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
-// Serve static files from the "public" directory
-app.use(express.static('public'));
+// Removed the line that serves static files from 'public' directory
 
 // Root route to serve the index.html file
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/public/index.html');
+    res.sendFile(__dirname + '/index.html'); // Updated path
 });
 
 // WebSocket connection handling
