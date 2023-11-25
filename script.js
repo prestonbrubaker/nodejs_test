@@ -1,5 +1,24 @@
 var c = document.getElementById("canvas1");
 var ctx = c.getContext("2d");
+
+// script.js
+$(function () {
+    var socket = io();
+    $('form').submit(function(e) {
+        e.preventDefault();
+        if ($('#input').val()) {
+            socket.emit('chat message', $('#input').val());
+            $('#input').val('');
+        }
+        return false;
+    });
+    socket.on('chat message', function(msg){
+        $('#messages').append($('<li>').text(msg));
+        window.scrollTo(0, document.body.scrollHeight);
+    });
+});
+
+
 var spriteSheet = new Image();
 spriteSheet.src = 'testpoop.png'; // Replace with the path to your sprite sheet
 var isFullscreen = false;
