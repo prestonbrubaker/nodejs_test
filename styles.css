@@ -27,6 +27,7 @@ body {
     height: 80vh;
     width: 40vw;
     background: lightgrey;
+    margin-right: 1rem;
 }
 
 #chatspace {
