@@ -7,21 +7,17 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
-// Removed the line that serves static files from 'public' directory
-
-// Root route to serve the index.html file
+// Serving the index.html file
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html'); // Updated path
+    res.sendFile(__dirname + '/index.html');
 });
 
 // WebSocket connection handling
 io.on('connection', (socket) => {
     console.log('A user connected');
-
     socket.on('chat message', (msg) => {
         io.emit('chat message', msg);
     });
-
     socket.on('disconnect', () => {
         console.log('User disconnected');
     });
