@@ -16,15 +16,31 @@ body {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    background-color: #f0f0f0; /* Light gray background */
+    background-color: whitesmoke; /* Light gray background */
+}
+
+#maincontent {
+    display: flex;
+}
+
+#canvas1 {
+    height: 80vh;
+    width: 80vw;
+    background: lightgrey;
+}
+
+#chatspace {
+    width: 20vw;
 }
 
 #messages {
+    display: flex;
     list-style-type: none;
     margin: 0;
     padding: 20px;
     overflow-y: scroll;
     flex-grow: 1;
+    background: pink;
 }
 
 #messages li {
@@ -60,9 +76,4 @@ body {
     cursor: pointer;
 }
 
-#canvas1 {
-    height: 80%;
-    width: 50%;
-    background: gray;
-    display: block;
-}
+

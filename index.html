@@ -7,11 +7,17 @@
 </head>
 <body>
     <h1>Chatroom!</h1>
-    <canvas id="canvas1"></canvas>
-    <ul id="messages"></ul>
-    <form id="form" action="">
-        <input id="input" autocomplete="off" placeholder="Type a message..." /><button>Send</button>
-    </form>
+    
+    <div id="maincontent">
+        <canvas id="canvas1"></canvas>
+        <div id="chatspace">
+            <canvas id="messages" width="265vw" height="497vh"></canvas>
+            <form id="form" action="">
+                <input id="input" autocomplete="off" placeholder="Type a message..." />
+                <button>Send</button>
+            </form>
+        </div>
+    </div>
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="script.js" defer></script>
