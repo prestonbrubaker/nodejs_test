@@ -27,7 +27,7 @@ body {
     height: 80vh;
     width: 40vw;
     background: lightgrey;
-    margin-right: 1rem;
+    margin-right: 2rem;
 }
 
 #chatspace {
@@ -44,6 +44,7 @@ body {
     flex-grow: 1;
     background: pink;
     height: 70vh;
+    width: 40vh;
 }
 
 #messages li {
