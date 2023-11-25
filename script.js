@@ -44,3 +44,9 @@ $(function () {
         window.scrollTo(0, document.body.scrollHeight);
     });
 });
+
+
+
+var c = document.getElementById("canvas1");
+var ctx = c.getContext("2d");
+
