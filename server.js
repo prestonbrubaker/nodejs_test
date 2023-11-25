@@ -1,4 +1,3 @@
-// server.js
 const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
@@ -7,23 +6,16 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
-// Removed the line that serves static files from 'public' directory
+// Serve static files from the current directory (including JavaScript files)
+app.use(express.static(__dirname));
 
-// Root route to serve the index.html file
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html'); // Updated path
+    res.sendFile(__dirname + '/index.html');
 });
 
-// WebSocket connection handling
 io.on('connection', (socket) => {
-    console.log('A user connected');
-
     socket.on('chat message', (msg) => {
         io.emit('chat message', msg);
-    });
-
-    socket.on('disconnect', () => {
-        console.log('User disconnected');
     });
 });
 
