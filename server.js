@@ -1,33 +1,39 @@
-const express = require('express');
-const http = require('http');
-const socketIo = require('socket.io');
-const fs = require('fs');
+const express = require('express'); // Import Express framework for building web applications
+const http = require('http'); // Import Node's built-in http module for creating HTTP server
+const socketIo = require('socket.io'); // Import Socket.IO for real-time bidirectional event-based communication
+const fs = require('fs'); // Import filesystem module for file operations
 
-const app = express();
-const server = http.createServer(app);
-const io = socketIo(server);
+const app = express(); // Initialize a new Express application
+const server = http.createServer(app); // Create an HTTP server that listens to server ports and responds back to the client
+const io = socketIo(server); // Initialize a new instance of Socket.IO with the HTTP server
 
-app.use(express.static(__dirname));
+app.use(express.static(__dirname)); // Serve static files from the directory where the script is running
 
+// Set up a route handler for HTTP GET requests to the root URL ('/')
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
+    res.sendFile(__dirname + '/index.html'); // Send the index.html file in response to requests to the root URL
 });
 
+// Listen for incoming Socket.IO connections
 io.on('connection', (socket) => {
+    // Set up a listener on the socket for the 'chat message' event
     socket.on('chat message', (data) => {
-        const { msg, timestamp, ip } = data;
-        const messageData = { msg, timestamp, ip };
-        io.emit('chat message', messageData);
+        const { msg, timestamp, ip } = data; // Destructure the received data
+        const messageData = { msg, timestamp, ip }; // Repackage the data
+        io.emit('chat message', messageData); // Emit the 'chat message' event to all connected clients
 
+        // Read the chatlog.json file
         fs.readFile('chatlog.json', (err, content) => {
-            if (err) {
+            if (err) { // Check for and handle any errors
                 console.error(err);
                 return;
             }
-            let chatLog = JSON.parse(content);
-            chatLog.push(messageData);
+            let chatLog = JSON.parse(content); // Parse the file content
+            chatLog.push(messageData); // Add the new message to the chat log
+
+            // Write the updated chat log back to the file
             fs.writeFile('chatlog.json', JSON.stringify(chatLog, null, 4), (err) => {
-                if (err) {
+                if (err) { // Check for and handle any errors
                     console.error(err);
                 }
             });
@@ -35,7 +41,8 @@ io.on('connection', (socket) => {
     });
 });
 
-const PORT = process.env.PORT || 58541;
+const PORT = process.env.PORT || 58541; // Set the port for the server
+// Start the server listening on the specified port
 server.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`); // Log a message when the server starts
 });
