@@ -14,10 +14,14 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-    socket.on('chat message', (msg) => {
-        io.emit('chat message', msg);
+    socket.on('chat message', (data) => {
+        const { msg, timestamp, ip } = data;
+        io.emit('chat message', { msg, timestamp, ip });
     });
 });
+
+
+
 
 const PORT = process.env.PORT || 58541;
 server.listen(PORT, '0.0.0.0', () => {
