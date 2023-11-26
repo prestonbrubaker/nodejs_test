@@ -3,8 +3,18 @@
     src: url("chatty.ttf"), format('trueType');
 }
 
+@font-face {
+    font-family: "newsy";
+    src: url("newsy.ttf"), format('trueType');
+}
+
+@font-face {
+    font-family: "nine";
+    src: url("nintendo.otf"), format('trueType');
+}
+
 h1 {
-    font-family: "chatty", sans-serif;
+    font-family: "nine", sans-serif;
     font-size: 3rem;
     text-align: center;
 }
