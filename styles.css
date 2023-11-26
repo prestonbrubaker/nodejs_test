@@ -86,8 +86,8 @@ body {
 }
 
 #messages {
-    flex-grow: 1;
-    overflow-y: scroll;
+    height: 80vh;
+    overflow-y: auto;
     list-style-type: none;
     margin: 0;
     padding: 0;
