@@ -57,6 +57,8 @@ document.getElementById('character-form').addEventListener('submit', function(ev
     var characterName = document.getElementById('char-name').value;
     var characterColor = document.getElementById('char-color').value;
     ctx.fillStyle = characterColor;
+    var x = Math.random() * 100;
+    var y = Math.random() * 100;
     ctx.fillRect(10, 10, 50, 50);
 })
 
