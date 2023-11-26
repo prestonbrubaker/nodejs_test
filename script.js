@@ -1,6 +1,18 @@
 $(function () {
     var socket = io(); // Initialize a socket connection using Socket.IO
 
+    // Function to display a single chat message
+    function displayMessage(data) {
+        $('#messages').append($('<li>').text(`[${data.timestamp}] ${data.msg} (IP: ${data.ip})`));
+    }
+
+    // Load initial chat messages from chatlog.json
+    function loadChatLog() {
+        $.getJSON('/chatlog.json', function (data) {
+            data.forEach(displayMessage);
+        });
+    }
+
     // Chat message submission
     $('#form').submit(function(e) {
         e.preventDefault();
@@ -13,7 +25,7 @@ $(function () {
 
     // Listen for chat message updates from the server
     socket.on('chat message', function(data) {
-        $('#messages').append($('<li>').text(`[${data.timestamp}] ${data.msg}`));
+        displayMessage(data);
         window.scrollTo(0, document.body.scrollHeight);
     });
 
@@ -33,22 +45,29 @@ $(function () {
     canvas.width = 500; // Set appropriate size
     canvas.height = 500;
 
-    // Listen for character updates from the server
-    socket.on('update rectangles', function(rectangles) {
+    // Function to draw characters on canvas
+    function drawCharacters(rectangles) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         rectangles.forEach(function(rect) {
             ctx.fillStyle = rect.characterColor;
             ctx.fillRect(rect.x, rect.y, 20, 20); // Adjust size as needed
             ctx.fillText(rect.characterName, rect.x, rect.y - 10); // Display name above rectangle
         });
+    }
+
+    // Load initial characters from rectangles.json
+    function loadRectangles() {
+        $.getJSON('/rectangles', function(rectangles) {
+            drawCharacters(rectangles);
+        });
+    }
+
+    // Listen for character updates from the server
+    socket.on('update rectangles', function(rectangles) {
+        drawCharacters(rectangles);
     });
 
-    // Initial load of characters
-    $.getJSON('/rectangles', function(rectangles) {
-        rectangles.forEach(function(rect) {
-            ctx.fillStyle = rect.characterColor;
-            ctx.fillRect(rect.x, rect.y, 20, 20); // Adjust size as needed
-            ctx.fillText(rect.characterName, rect.x, rect.y - 10); // Display name above rectangle
-        });
-    });
+    // Initial load of messages and characters
+    loadChatLog();
+    loadRectangles();
 });
