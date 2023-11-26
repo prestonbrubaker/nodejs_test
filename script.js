@@ -28,28 +28,16 @@ $(function () {
         displayMessage(data);
         window.scrollTo(0, document.body.scrollHeight);
     });
-});
 
-
-
-var c = document.getElementById("canvas1");
-var ctx = c.getContext("2d");
-var characterName = 0;
-var characterColor = "#ff0000";
-
-document.getElementById('character-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-
-    var characterName = document.getElementById('char-name').value;
-    var characterColor = document.getElementById('char-color').value;
-    ctx.fillStyle = characterColor;
-    var x = Math.random() * 100;
-    var y = Math.random() * 100;
-    ctx.fillRect(x, y, 5, 5);
-
-    // Emit an event to the server with the rectangle data
-    socket.emit('new rectangle', { characterName, characterColor, x, y });
-});
+    // Character creation submission
+    $('#character-form').submit(function(e) {
+        e.preventDefault();
+        var characterName = $('#char-name').val();
+        var characterColor = $('#char-color').val();
+        var x = Math.random() * canvas1.width;
+        var y = Math.random() * canvas1.height;
+        socket.emit('new rectangle', { characterName, characterColor, x, y });
+    });
 
     // Canvas setup
     var canvas = document.getElementById('canvas1');
