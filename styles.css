@@ -27,7 +27,7 @@ nav ul {
     padding: 0;
     display: flex;
     justify-content: center;
-    margin: 0;
+    margin-bottom: 0.5rem;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2); 
 }
 
