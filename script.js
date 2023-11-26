@@ -25,12 +25,11 @@ $(function () {
     $('form').submit(function(e) {
         e.preventDefault(); // Prevent the default form submission behavior
         if ($('#input').val()) {
-            // Get message, current timestamp, and IP address
+            // Inside the form submission handler
             const msg = $('#input').val();
             const timestamp = new Date().toLocaleTimeString();
-            const ip = window.location.hostname;
-            // Emit a 'chat message' event with the message data
-            socket.emit('chat message', { msg, timestamp, ip });
+            socket.emit('chat message', { msg, timestamp });
+
             // Clear the input field after sending the message
             $('#input').val('');
         }
