@@ -63,7 +63,7 @@ document.getElementById('character-form').addEventListener('submit', function(ev
     var x = Math.random() * 100;
     var y = Math.random() * 100;
     ctx.fillRect(x, y, 5, 5);
-
+    document.getElementById('overlay').style.display = 'none';
     // Emit an event to the server with the rectangle data
     socket.emit('new rectangle', { characterName, characterColor, x, y });
 });
