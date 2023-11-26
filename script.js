@@ -41,10 +41,10 @@ $(function () {
     });
 
     // Canvas setup
-    var gamespace = document.getElementById('canvas1');
+    var canvas = document.getElementById('canvas1');
     var ctx = canvas.getContext('2d');
-    gamespace.width = window.innerWidth * 0.8; // Set appropriate size
-    gamespace.height = window.innerHeight * 0.7;
+    canvas.width = 900; // Set appropriate size
+    canvas.height = 200;
 
     // Function to draw characters on canvas
     function drawCharacters(rectangles) {
