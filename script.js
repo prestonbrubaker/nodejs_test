@@ -18,22 +18,7 @@ $(function () {
         });
     }
     
-    function loadRectangles() {
-    $.getJSON('/rectangles', function(data) {
-        data.forEach(function(rect) {
-            ctx.fillStyle = rect.characterColor;
-            ctx.fillRect(rect.x, rect.y, 5, 5);
-        });
-    });
-}
 
-loadRectangles();
-
-// Listen for real-time updates
-socket.on('update rectangles', function(data) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
-    loadRectangles(); // Reload all rectangles
-});
 
 
     // Call the function to load the chat log when the page loads
@@ -81,6 +66,23 @@ document.getElementById('character-form').addEventListener('submit', function(ev
 
     // Emit an event to the server with the rectangle data
     socket.emit('new rectangle', { characterName, characterColor, x, y });
+});
+
+function loadRectangles() {
+    $.getJSON('/rectangles', function(data) {
+        data.forEach(function(rect) {
+            ctx.fillStyle = rect.characterColor;
+            ctx.fillRect(rect.x, rect.y, 5, 5);
+        });
+    });
+}
+
+loadRectangles();
+
+// Listen for real-time updates
+socket.on('update rectangles', function(data) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
+    loadRectangles(); // Reload all rectangles
 });
 
 
