@@ -16,11 +16,13 @@ app.get('/', (req, res) => {
 
 // Listen for incoming Socket.IO connections
 io.on('connection', (socket) => {
-    // Set up a listener on the socket for the 'chat message' event
+    // Get client's IP address
+    const clientIp = socket.request.connection.remoteAddress;
+
     socket.on('chat message', (data) => {
-        const { msg, timestamp, ip } = data; // Destructure the received data
-        const messageData = { msg, timestamp, ip }; // Repackage the data
-        io.emit('chat message', messageData); // Emit the 'chat message' event to all connected clients
+        // Add the IP address to the message data
+        const messageData = { ...data, ip: clientIp };
+        io.emit('chat message', messageData);
 
         // Read the chatlog.json file
         fs.readFile('chatlog.json', (err, content) => {
