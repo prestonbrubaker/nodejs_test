@@ -49,7 +49,17 @@ $(function () {
 
 var c = document.getElementById("canvas1");
 var ctx = c.getContext("2d");
+var characterName = 0;
+var characterColor = "#ff0000";
 
-ctx.fillStyle = "#FF0000";
-ctx.fillRect(10, 10, 50, 50);
+document.getElementById('character-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    var characterName = document.getElementById('char-name').value;
+    var characterColor = document.getElementById('char-color').value;
+    ctx.fillStyle = characterColor;
+    ctx.fillRect(10, 10, 50, 50);
+})
+
+
 
