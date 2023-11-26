@@ -86,7 +86,7 @@ body {
 }
 
 #messages {
-    height: 80vh;
+    height: 65vh;
     overflow-y: auto;
     list-style-type: none;
     margin: 0;
