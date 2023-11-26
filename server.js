@@ -44,6 +44,7 @@ io.on('connection', (socket) => {
     const clientIp = socket.request.headers['x-forwarded-for'] || socket.request.connection.remoteAddress;
 
     socket.on('chat message', (data) => {
+        console.log("Received new chat:", data);
         // Add the IP address to the message data
         const messageData = { ...data, ip: clientIp };
         io.emit('chat message', messageData);
