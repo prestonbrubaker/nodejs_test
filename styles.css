@@ -87,7 +87,7 @@ body {
 
 #messages {
     flex-grow: 1;
-    overflow-y: auto;
+    overflow-y: scroll;
     list-style-type: none;
     margin: 0;
     padding: 0;
