@@ -9,33 +9,35 @@
     <h1>♦♣Markovian Developments♠♥</h1>
     <div id="maincontent">
         <div id="gamespace">
-            <div id="overlay">
-                <form id="character-form">
-                <label for="char-name">Character Name:</label>
-                <input type="text" id="char-name" name="char-name" placeholder="Enter character name" required>
-                <label for="char-color">Choose a Color:</label>
-                <select id="char-color" name="char-color">
-                    <option value="tomato">Tomato</option>
-                    <option value="firebrick">Firebrick</option>
-                    <option value="lightsalmon">Light Salmon</option>
-                    <option value="gold">Gold</option>
-                    <option value="chartreuse">Chartreuse</option>
-                    <option value="olivedrab">Olive Drab</option>
-                    <option value="dodgerblue">Dodgerblue</option>
-                    <option value="plum">Plum</option>
-                </select>
-                <input type="submit" value="Create Character">
-                </form>
-            </div>
             <div id="canvas-support-space">
-                <canvas id="canvas1"></canvas>
+                <div class="canvasbox">
+                    <canvas id="canvas1"></canvas>
+                    <div id="overlay">
+                        <form id="character-form">
+                            <label for="char-name">Character Name:</label>
+                            <input type="text" id="char-name" name="char-name" placeholder="Enter character name" required>
+                            <label for="char-color">Choose a Color:</label>
+                            <select id="char-color" name="char-color">
+                                <option value="tomato">Tomato</option>
+                                <option value="firebrick">Firebrick</option>
+                                <option value="lightsalmon">Light Salmon</option>
+                                <option value="gold">Gold</option>
+                                <option value="chartreuse">Chartreuse</option>
+                                <option value="olivedrab">Olive Drab</option>
+                                <option value="dodgerblue">Dodgerblue</option>
+                                <option value="plum">Plum</option>
+                            </select>
+                            <input type="submit" value="Create Character">
+                        </form>
+                    </div>
+                </div>
                 <p id="support-text"> Support Us! Donate to our bicoin wallet: 1CRutQB4HYWEYU8Z2KrTiQCpyug7kPwNzh</p>
             </div>
         </div>
         <div id="chatspace">
             <ul id="messages"></ul>
             <form id="form" action="">
-                <input id="input" autocomplete="off" placeholder="Type a message..." />
+                <input id="input" autocomplete="off" placeholder="Type a message..." />                
                 <button>Send</button>
             </form>
         </div>
