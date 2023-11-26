@@ -17,7 +17,7 @@ app.get('/', (req, res) => {
 // Listen for incoming Socket.IO connections
 io.on('connection', (socket) => {
     // Get client's IP address
-    const clientIp = socket.request.connection.remoteAddress;
+    const clientIp = socket.request.headers['x-forwarded-for'] || socket.request.connection.remoteAddress;
 
     socket.on('chat message', (data) => {
         // Add the IP address to the message data
