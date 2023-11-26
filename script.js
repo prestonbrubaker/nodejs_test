@@ -59,7 +59,7 @@ document.getElementById('character-form').addEventListener('submit', function(ev
     ctx.fillStyle = characterColor;
     var x = Math.random() * 100;
     var y = Math.random() * 100;
-    ctx.fillRect(10, 10, 50, 50);
+    ctx.fillRect(x, y, 5, 5);
 })
 
 
