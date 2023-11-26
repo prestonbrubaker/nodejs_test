@@ -65,6 +65,7 @@ document.getElementById('character-form').addEventListener('submit', function(ev
     ctx.fillRect(x, y, 5, 5);
 
     // Emit an event to the server with the rectangle data
+    console.log("Emitting new rectangle event:", { characterName, characterColor, x, y });
     socket.emit('new rectangle', { characterName, characterColor, x, y });
 });
 
