@@ -108,7 +108,6 @@ body {
 
 #form {
     display: flex;
-    width: 100%;
     padding: 10px;
     background: #fff; /* White form background */
     border-top: 1px solid #ddd; /* Light gray border */
