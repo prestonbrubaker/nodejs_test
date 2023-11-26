@@ -36,6 +36,7 @@ $(function () {
         var characterColor = $('#char-color').val();
         var x = Math.random() * canvas1.width;
         var y = Math.random() * canvas1.height;
+        document.getElementById('overlay').style.display = 'none';
         socket.emit('new rectangle', { characterName, characterColor, x, y });
     });
 
