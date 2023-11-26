@@ -83,10 +83,10 @@ body {
     display: flex;
     flex-direction: column;
     width: 10vw;
+    height: 70vh;
 }
 
 #messages {
-    height: 60vh;
     overflow-y: auto;
     list-style-type: none;
     margin: 0;
