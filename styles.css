@@ -17,6 +17,7 @@ h1 {
     font-family: "newsy", sans-serif;
     font-size: 3rem;
     text-align: center;
+    margin: 0;
 }
 
 nav ul {
@@ -42,7 +43,7 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-    background-color: #d1e8e2; 
+    background-color: lightpink; 
 }
 
 body {
