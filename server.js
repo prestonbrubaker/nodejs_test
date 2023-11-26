@@ -18,6 +18,25 @@ app.get('/rectangles', (req, res) => {
     res.sendFile(__dirname + '/rectangles.json');
 });
 
+// Helper function to read the rectangles file
+async function readRectanglesFile() {
+    try {
+        const content = await fs.promises.readFile('rectangles.json', 'utf8');
+        return JSON.parse(content);
+    } catch (err) {
+        console.error('Error reading rectangles file:', err);
+        return []; // Return an empty array if there's an error (e.g., file not found)
+    }
+}
+
+// Helper function to write to the rectangles file
+async function writeRectanglesFile(rectangles) {
+    try {
+        await fs.promises.writeFile('rectangles.json', JSON.stringify(rectangles, null, 4));
+    } catch (err) {
+        console.error('Error writing to rectangles file:', err);
+    }
+}
 
 // Listen for incoming Socket.IO connections
 io.on('connection', (socket) => {
@@ -46,31 +65,12 @@ io.on('connection', (socket) => {
             });
         });
     });
-    socket.on('new rectangle', (data) => {
-    fs.readFile('rectangles.json', (err, content) => {
-        let rectangles = [];
-
-        if (!err && content.length > 0) {
-            try {
-                rectangles = JSON.parse(content);
-            } catch (parseErr) {
-                console.error('Error parsing JSON:', parseErr);
-                return;
-            }
-        }
-
+    socket.on('new rectangle', async (data) => {
+        let rectangles = await readRectanglesFile();
         rectangles.push(data);
-
-        fs.writeFile('rectangles.json', JSON.stringify(rectangles, null, 4), (writeErr) => {
-            if (writeErr) {
-                console.error('Error writing to file:', writeErr);
-                return;
-            }
-
-            io.emit('update rectangles', rectangles);
-        });
+        await writeRectanglesFile(rectangles);
+        io.emit('update rectangles', rectangles);
     });
-});
 
 });
 
