@@ -14,6 +14,11 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html'); // Send the index.html file in response to requests to the root URL
 });
 
+app.get('/rectangles', (req, res) => {
+    res.sendFile(__dirname + '/rectangles.json');
+});
+
+
 // Listen for incoming Socket.IO connections
 io.on('connection', (socket) => {
     // Get client's IP address
@@ -41,6 +46,30 @@ io.on('connection', (socket) => {
             });
         });
     });
+    socket.on('new rectangle', (data) => {
+    // Read the existing data
+    fs.readFile('rectangles.json', (err, content) => {
+        let rectangles = [];
+        if (!err) {
+            rectangles = JSON.parse(content);
+        }
+
+        // Add new rectangle
+        rectangles.push(data);
+
+        // Save the updated data back to the file
+        fs.writeFile('rectangles.json', JSON.stringify(rectangles, null, 4), (err) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+
+            // Emit the update to all clients
+            io.emit('update rectangles', rectangles);
+        });
+    });
+});
+
 });
 
 const PORT = process.env.PORT || 58541; // Set the port for the server
