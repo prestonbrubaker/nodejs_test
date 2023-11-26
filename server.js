@@ -66,6 +66,7 @@ io.on('connection', (socket) => {
         });
     });
     socket.on('new rectangle', async (data) => {
+        console.log("Received new rectangle:", data);
         let rectangles = await readRectanglesFile();
         rectangles.push(data);
         await writeRectanglesFile(rectangles);
