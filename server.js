@@ -14,6 +14,11 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html'); // Send the index.html file in response to requests to the root URL
 });
 
+app.get('/rectangles', (req, res) => {
+    res.sendFile(__dirname + '/rectangles.json');
+});
+
+
 // Listen for incoming Socket.IO connections
 io.on('connection', (socket) => {
     // Get client's IP address
