@@ -47,24 +47,26 @@ io.on('connection', (socket) => {
         });
     });
     socket.on('new rectangle', (data) => {
-    // Read the existing data
     fs.readFile('rectangles.json', (err, content) => {
         let rectangles = [];
-        if (!err) {
-            rectangles = JSON.parse(content);
+
+        if (!err && content.length > 0) {
+            try {
+                rectangles = JSON.parse(content);
+            } catch (parseErr) {
+                console.error('Error parsing JSON:', parseErr);
+                return;
+            }
         }
 
-        // Add new rectangle
         rectangles.push(data);
 
-        // Save the updated data back to the file
-        fs.writeFile('rectangles.json', JSON.stringify(rectangles, null, 4), (err) => {
-            if (err) {
-                console.error(err);
+        fs.writeFile('rectangles.json', JSON.stringify(rectangles, null, 4), (writeErr) => {
+            if (writeErr) {
+                console.error('Error writing to file:', writeErr);
                 return;
             }
 
-            // Emit the update to all clients
             io.emit('update rectangles', rectangles);
         });
     });
