@@ -1,91 +1,54 @@
 $(function () {
     var socket = io(); // Initialize a socket connection using Socket.IO
 
-    var messagesList = $('#messages'); // Select the HTML element to display messages
-
-    // Function to display a single message
-    function displayMessage(data) {
-        // Append a new list item to the messages list with the formatted message
-        messagesList.append($('<li>').text(`[${data.timestamp}] ${data.msg} (IP: ${data.ip})`));
-    }
-
-    // Function to load previous chat messages from the server
-    function loadChatLog() {
-        // Make an AJAX request to get the chat log
-        $.getJSON('/chatlog.json', function (data) {
-            // For each message in the chat log, display it
-            data.forEach(displayMessage);
-        });
-    }
-    
-
-
-
-    // Call the function to load the chat log when the page loads
-    loadChatLog();
-
-    // Event listener for form submission
-    $('form').submit(function(e) {
-        e.preventDefault(); // Prevent the default form submission behavior
-        if ($('#input').val()) {
-            // Inside the form submission handler
-            const msg = $('#input').val();
-            const timestamp = new Date().toLocaleTimeString();
-            socket.emit('chat message', { msg, timestamp });
-
-            // Clear the input field after sending the message
+    // Chat message submission
+    $('#form').submit(function(e) {
+        e.preventDefault();
+        var message = $('#input').val();
+        if (message) {
+            socket.emit('chat message', { msg: message, timestamp: new Date().toLocaleTimeString() });
             $('#input').val('');
         }
-        return false;
     });
 
-    // Listen for 'chat message' events from the server
-    socket.on('chat message', function(data){
-        // Display the received message and scroll to the bottom of the page
-        displayMessage(data);
+    // Listen for chat message updates from the server
+    socket.on('chat message', function(data) {
+        $('#messages').append($('<li>').text(`[${data.timestamp}] ${data.msg}`));
         window.scrollTo(0, document.body.scrollHeight);
     });
-});
 
+    // Character creation submission
+    $('#character-form').submit(function(e) {
+        e.preventDefault();
+        var characterName = $('#char-name').val();
+        var characterColor = $('#char-color').val();
+        var x = Math.random() * canvas1.width;
+        var y = Math.random() * canvas1.height;
+        socket.emit('new rectangle', { characterName, characterColor, x, y });
+    });
 
+    // Canvas setup
+    var canvas = document.getElementById('canvas1');
+    var ctx = canvas.getContext('2d');
+    canvas.width = 500; // Set appropriate size
+    canvas.height = 500;
 
-var c = document.getElementById("canvas1");
-var ctx = c.getContext("2d");
-var characterName = 0;
-var characterColor = "#ff0000";
-
-document.getElementById('character-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-
-    var characterName = document.getElementById('char-name').value;
-    var characterColor = document.getElementById('char-color').value;
-    ctx.fillStyle = characterColor;
-    var x = Math.random() * 100;
-    var y = Math.random() * 100;
-    ctx.fillRect(x, y, 5, 5);
-
-    // Emit an event to the server with the rectangle data
-    console.log("Emitting new rectangle event:", { characterName, characterColor, x, y });
-    socket.emit('new rectangle', { characterName, characterColor, x, y });
-});
-
-function loadRectangles() {
-    $.getJSON('/rectangles', function(data) {
-        data.forEach(function(rect) {
+    // Listen for character updates from the server
+    socket.on('update rectangles', function(rectangles) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        rectangles.forEach(function(rect) {
             ctx.fillStyle = rect.characterColor;
-            ctx.fillRect(rect.x, rect.y, 5, 5);
+            ctx.fillRect(rect.x, rect.y, 20, 20); // Adjust size as needed
+            ctx.fillText(rect.characterName, rect.x, rect.y - 10); // Display name above rectangle
         });
     });
-}
 
-loadRectangles();
-
-// Listen for real-time updates
-socket.on('update rectangles', function(data) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
-    loadRectangles(); // Reload all rectangles
+    // Initial load of characters
+    $.getJSON('/rectangles', function(rectangles) {
+        rectangles.forEach(function(rect) {
+            ctx.fillStyle = rect.characterColor;
+            ctx.fillRect(rect.x, rect.y, 20, 20); // Adjust size as needed
+            ctx.fillText(rect.characterName, rect.x, rect.y - 10); // Display name above rectangle
+        });
+    });
 });
-
-
-
-
