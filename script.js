@@ -43,8 +43,8 @@ $(function () {
     // Canvas setup
     var canvas = document.getElementById('canvas1');
     var ctx = canvas.getContext('2d');
-    canvas.width = 900; // Set appropriate size
-    canvas.height = 500;
+    canvas.width = window.innerWidth * 0.7; // Set appropriate size
+    canvas.height = window.innerHeight * 0.7;
 
     // Function to draw characters on canvas
     function drawCharacters(rectangles) {

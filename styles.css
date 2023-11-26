@@ -14,7 +14,7 @@
 }
 
 h1 {
-    font-family: "nine", sans-serif;
+    font-family: "newsy", sans-serif;
     font-size: 3rem;
     text-align: center;
 }
@@ -32,10 +32,13 @@ body {
 #maincontent {
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
 }
 
 #canvas-support-space {
+    display: flex;
     flex-direction: column;
+    margin-right: 1rem;
 }
 
 #canvas1 {
@@ -48,6 +51,7 @@ body {
 
 #support-text {
     margin-top: 1rem;
+    margin-left: 1rem;
 }
 
 #chatspace {
@@ -59,7 +63,6 @@ body {
     flex-direction: column;
     list-style-type: none;
     margin: 0;
-    padding: 20px;
     overflow-y: scroll;
     flex-grow: 1;
     background: whitesmoke;
