@@ -1,81 +1,62 @@
-const express = require('express'); // Import Express framework for building web applications
-const http = require('http'); // Import Node's built-in http module for creating HTTP server
-const socketIo = require('socket.io'); // Import Socket.IO for real-time bidirectional event-based communication
-const fs = require('fs'); // Import filesystem module for file operations
+const express = require('express');
+const http = require('http');
+const socketIo = require('socket.io');
+const fs = require('fs');
+const path = require('path');
 
-const app = express(); // Initialize a new Express application
-const server = http.createServer(app); // Create an HTTP server that listens to server ports and responds back to the client
-const io = socketIo(server); // Initialize a new instance of Socket.IO with the HTTP server
+const app = express();
+const server = http.createServer(app);
+const io = socketIo(server);
 
-app.use(express.static(__dirname)); // Serve static files from the directory where the script is running
+app.use(express.static(__dirname));
 
-// Set up a route handler for HTTP GET requests to the root URL ('/')
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html'); // Send the index.html file in response to requests to the root URL
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.get('/rectangles', (req, res) => {
-    res.sendFile(__dirname + '/rectangles.json');
+    res.sendFile(path.join(__dirname, 'rectangles.json'));
 });
 
+function readJsonFile(filePath, defaultContent) {
+    try {
+        const content = fs.readFileSync(filePath, 'utf8');
+        return JSON.parse(content);
+    } catch (err) {
+        console.error(`Error reading ${filePath}:`, err);
+        return defaultContent;
+    }
+}
 
-// Listen for incoming Socket.IO connections
+function writeJsonFile(filePath, content) {
+    try {
+        fs.writeFileSync(filePath, JSON.stringify(content, null, 4));
+    } catch (err) {
+        console.error(`Error writing to ${filePath}:`, err);
+    }
+}
+
 io.on('connection', (socket) => {
-    // Get client's IP address
-    const clientIp = socket.request.headers['x-forwarded-for'] || socket.request.connection.remoteAddress;
+    console.log('A user connected');
 
     socket.on('chat message', (data) => {
-        // Add the IP address to the message data
-        const messageData = { ...data, ip: clientIp };
-        io.emit('chat message', messageData);
+        const chatLog = readJsonFile('chatlog.json', []);
+        chatLog.push(data);
+        writeJsonFile('chatlog.json', chatLog);
 
-        // Read the chatlog.json file
-        fs.readFile('chatlog.json', (err, content) => {
-            if (err) { // Check for and handle any errors
-                console.error(err);
-                return;
-            }
-            let chatLog = JSON.parse(content); // Parse the file content
-            chatLog.push(messageData); // Add the new message to the chat log
-
-            // Write the updated chat log back to the file
-            fs.writeFile('chatlog.json', JSON.stringify(chatLog, null, 4), (err) => {
-                if (err) { // Check for and handle any errors
-                    console.error(err);
-                }
-            });
-        });
+        io.emit('chat message', data);
     });
+
     socket.on('new rectangle', (data) => {
-    fs.readFile('rectangles.json', (err, content) => {
-        let rectangles = [];
-
-        if (!err && content.length > 0) {
-            try {
-                rectangles = JSON.parse(content);
-            } catch (parseErr) {
-                console.error('Error parsing JSON:', parseErr);
-                return;
-            }
-        }
-
+        const rectangles = readJsonFile('rectangles.json', []);
         rectangles.push(data);
+        writeJsonFile('rectangles.json', rectangles);
 
-        fs.writeFile('rectangles.json', JSON.stringify(rectangles, null, 4), (writeErr) => {
-            if (writeErr) {
-                console.error('Error writing to file:', writeErr);
-                return;
-            }
-
-            io.emit('update rectangles', rectangles);
-        });
+        io.emit('update rectangles', rectangles);
     });
 });
 
-});
-
-const PORT = process.env.PORT || 58541; // Set the port for the server
-// Start the server listening on the specified port
-server.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server running on port ${PORT}`); // Log a message when the server starts
+const PORT = process.env.PORT || 58541;
+server.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
